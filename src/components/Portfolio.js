@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Modern3DBackground from './Modern3DBackground';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -117,14 +118,17 @@ const Portfolio = () => {
   }, [filteredProjects]);
 
   return (
-    <section id="portfolio" ref={sectionRef} className="section-padding bg-white">
-      <div className="container-max">
+    <section id="portfolio" ref={sectionRef} className="section-padding bg-white relative overflow-hidden">
+      {/* Modern 3D Background */}
+      <Modern3DBackground />
+      
+      <div className="container-max relative z-10">
         {/* Section Header */}
         <div ref={titleRef} className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
             Our <span className="gradient-text">Portfolio</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mx-auto mb-6"></div>
+          <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full mx-auto mb-6"></div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
             Explore our recent projects and see how we've helped businesses achieve their digital goals.
           </p>
@@ -168,7 +172,7 @@ const Portfolio = () => {
                 
                 {/* Featured Badge */}
                 {project.featured && (
-                  <div className="absolute top-4 left-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <div className="absolute top-4 left-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white px-3 py-1 rounded-full text-sm font-medium">
                     Featured
                   </div>
                 )}
@@ -223,14 +227,14 @@ const Portfolio = () => {
 
         {/* CTA Section */}
         <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 text-white">
             <h3 className="text-3xl font-bold mb-4">
               Ready to Start Your Project?
             </h3>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
               Let's create something amazing together. Get in touch with us to discuss your project requirements.
             </p>
-            <button className="bg-white text-blue-600 font-semibold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors duration-300 transform hover:scale-105">
+            <button className="bg-white text-blue-600 font-semibold px-8 py-4 rounded-lg hover:bg-blue-50 transition-colors duration-300 transform hover:scale-105">
               Start Your Project
             </button>
           </div>

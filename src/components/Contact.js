@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Modern3DBackground from './Modern3DBackground';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -118,14 +119,17 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" ref={sectionRef} className="section-padding bg-white">
-      <div className="container-max">
+    <section id="contact" ref={sectionRef} className="section-padding bg-white relative overflow-hidden">
+      {/* Modern 3D Background */}
+      <Modern3DBackground />
+      
+      <div className="container-max relative z-10">
         {/* Section Header */}
         <div ref={titleRef} className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
             Get In <span className="gradient-text">Touch</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mx-auto mb-6"></div>
+          <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full mx-auto mb-6"></div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Ready to start your next project? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
           </p>
@@ -230,7 +234,7 @@ const Contact = () => {
                   className={`w-full py-4 px-6 rounded-lg font-semibold text-white transition-all duration-300 transform hover:scale-105 ${
                     isSubmitting
                       ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
+                      : 'bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900'
                   }`}
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
@@ -257,7 +261,7 @@ const Contact = () => {
             <div className="space-y-6">
               {contactInfo.map((info, index) => (
                 <div key={index} className="flex items-start space-x-4 p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-300">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center text-white flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg flex items-center justify-center text-white flex-shrink-0">
                     {info.icon}
                   </div>
                   <div>

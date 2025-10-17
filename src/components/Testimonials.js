@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Modern3DBackground from './Modern3DBackground';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -128,14 +129,17 @@ const Testimonials = () => {
   };
 
   return (
-    <section id="testimonials" ref={sectionRef} className="section-padding bg-gray-50">
-      <div className="container-max">
+    <section id="testimonials" ref={sectionRef} className="section-padding bg-gray-50 relative overflow-hidden">
+      {/* Modern 3D Background */}
+      <Modern3DBackground />
+      
+      <div className="container-max relative z-10">
         {/* Section Header */}
         <div ref={titleRef} className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
             What Our <span className="gradient-text">Clients Say</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mx-auto mb-6"></div>
+          <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full mx-auto mb-6"></div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Don't just take our word for it. Here's what our satisfied clients have to say about working with us.
           </p>
@@ -146,12 +150,12 @@ const Testimonials = () => {
           {/* Main Testimonial */}
           <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg relative overflow-hidden">
             {/* Background Pattern */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full -translate-y-16 translate-x-16"></div>
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-pink-100 to-blue-100 rounded-full translate-y-12 -translate-x-12"></div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full -translate-y-16 translate-x-16"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-100 to-blue-200 rounded-full translate-y-12 -translate-x-12"></div>
 
             <div className="relative z-10">
               {/* Quote Icon */}
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full flex items-center justify-center mb-6">
                 <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/>
                 </svg>

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Modern3DBackground from './Modern3DBackground';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -112,25 +113,28 @@ const Services = () => {
 
   const getColorClasses = (color) => {
     const colors = {
-      blue: "from-blue-500 to-blue-600",
-      purple: "from-purple-500 to-purple-600",
-      pink: "from-pink-500 to-pink-600",
-      green: "from-green-500 to-green-600",
-      indigo: "from-indigo-500 to-indigo-600",
-      yellow: "from-yellow-500 to-yellow-600"
+      blue: "from-blue-500 to-blue-700",
+      purple: "from-blue-600 to-blue-800",
+      pink: "from-blue-400 to-blue-600",
+      green: "from-blue-500 to-blue-600",
+      indigo: "from-blue-600 to-blue-700",
+      yellow: "from-blue-400 to-blue-500"
     };
     return colors[color] || colors.blue;
   };
 
   return (
-    <section id="services" ref={sectionRef} className="section-padding bg-gray-50">
-      <div className="container-max">
+    <section id="services" ref={sectionRef} className="section-padding bg-gray-50 relative overflow-hidden">
+      {/* Modern 3D Background */}
+      <Modern3DBackground />
+      
+      <div className="container-max relative z-10">
         {/* Section Header */}
         <div ref={titleRef} className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
             Our <span className="gradient-text">Services</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mx-auto mb-6"></div>
+          <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full mx-auto mb-6"></div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             We offer comprehensive software development services to help your business thrive in the digital world.
           </p>

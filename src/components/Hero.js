@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import ThreeHeroBg from './ThreeHeroBg';
+import Modern3DBackground from './Modern3DBackground';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -9,174 +9,182 @@ const Hero = () => {
   const heroRef = useRef(null);
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
-  const buttonRef = useRef(null);
+  const buttonsRef = useRef(null);
+  const statsRef = useRef(null);
   const imageRef = useRef(null);
-  const containerRef = useRef(null);
 
   useEffect(() => {
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-    // Initial animation
+    // Initial animations
     tl.from(titleRef.current, {
-      duration: 1.2,
-      y: 100,
+      duration: 1,
+      y: 60,
       opacity: 0,
-      ease: "power3.out"
+      scale: 0.9,
     })
     .from(subtitleRef.current, {
-      duration: 1,
-      y: 50,
-      opacity: 0,
-      ease: "power3.out"
-    }, "-=0.8")
-    .from(buttonRef.current, {
       duration: 0.8,
+      y: 40,
+      opacity: 0,
+    }, '-=0.5')
+    .from(buttonsRef.current.children, {
+      duration: 0.6,
       y: 30,
       opacity: 0,
-      ease: "power3.out"
-    }, "-=0.6")
-    .from(imageRef.current, {
-      duration: 1.5,
-      x: 100,
+      stagger: 0.15,
+    }, '-=0.4')
+    .from('.stat-card', {
+      duration: 0.8,
+      y: 40,
       opacity: 0,
-      ease: "power3.out"
-    }, "-=1.2");
+      stagger: 0.15,
+    }, '-=0.3')
+    .from(imageRef.current, {
+      duration: 1,
+      x: 60,
+      opacity: 0,
+    }, '-=0.8');
+
+    // Stats counter animation
+    const stats = statsRef.current?.querySelectorAll('.stat-number');
+    stats?.forEach((stat) => {
+      gsap.from(stat, {
+        textContent: 0,
+        duration: 2,
+        ease: 'power1.out',
+        snap: { textContent: 1 },
+        scrollTrigger: {
+          trigger: stat,
+          start: 'top 85%',
+        },
+        onUpdate: function() {
+          stat.textContent = Math.ceil(this.targets()[0].textContent);
+        }
+      });
+    });
 
     // Parallax effect
-    gsap.to(imageRef.current, {
-      y: -50,
-      ease: "none",
+    gsap.to(heroRef.current, {
+      yPercent: 20,
+      ease: 'none',
       scrollTrigger: {
         trigger: heroRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: true
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
       }
     });
 
-    // Floating animation for elements
-    gsap.to(buttonRef.current, {
-      y: -10,
-      duration: 2,
-      ease: "power2.inOut",
-      yoyo: true,
-      repeat: -1
-    });
-    
-    // Mouse parallax for left column elements
-    const onMouseMove = (e) => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const relX = (e.clientX - rect.left) / rect.width - 0.5;
-      const relY = (e.clientY - rect.top) / rect.height - 0.5;
-      gsap.to(titleRef.current, { x: relX * 20, y: relY * 10, duration: 0.5, ease: 'power2.out' });
-      gsap.to(subtitleRef.current, { x: relX * 15, y: relY * 8, duration: 0.5, ease: 'power2.out' });
-      gsap.to(buttonRef.current, { x: relX * 10, y: relY * 6, duration: 0.5, ease: 'power2.out' });
-    };
-    containerRef.current?.addEventListener('mousemove', onMouseMove);
-    return () => containerRef.current?.removeEventListener('mousemove', onMouseMove);
   }, []);
 
   return (
-    <section id="hero" ref={heroRef} className="min-h-screen flex items-center bg-gradient-to-br from-blue-50 to-purple-50 relative overflow-hidden">
-      {/* Three.js Background */}
-      <ThreeHeroBg />
+    <section 
+      id="hero" 
+      ref={heroRef}
+      className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 via-white to-blue-50"
+    >
+      {/* 3D Background */}
+      <Modern3DBackground />
 
-      <div ref={containerRef} className="container-max section-padding relative z-10">
+      {/* Decorative Blobs */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-300 rounded-full blur-blob opacity-20 animate-float"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-400 rounded-full blur-blob opacity-20 animate-float" style={{animationDelay: '2s'}}></div>
+
+      {/* Grid Background */}
+      <div className="absolute inset-0 tech-grid opacity-40"></div>
+
+      <div className="container-max section-padding relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-8">
             <div ref={titleRef} className="space-y-4">
-              <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
-                <span className="gradient-text">Innovative</span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 rounded-full border border-blue-200">
+                <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+                <span className="text-sm font-semibold text-blue-600">Welcome to Seqato</span>
+              </div>
+              <h1 className="modern-title text-5xl lg:text-7xl font-bold text-gray-900 leading-tight">
+                Transform Your
                 <br />
-                <span className="text-gray-900">Software Solutions</span>
+                <span className="gradient-text">Digital Future</span>
               </h1>
-              <p className="text-xl text-gray-600 max-w-lg">
-                We create cutting-edge software that transforms businesses and delivers exceptional user experiences.
+            </div>
+
+            <div ref={subtitleRef}>
+              <p className="text-xl text-gray-600 leading-relaxed max-w-xl">
+                We craft cutting-edge IT solutions that empower businesses to thrive in the digital age. 
+                From web development to cloud services, we're your technology partner.
               </p>
             </div>
 
-            <div ref={subtitleRef} className="space-y-6">
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                  <span className="text-gray-700 font-medium">Web Development</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
-                  <span className="text-gray-700 font-medium">Mobile Apps</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-pink-600 rounded-full"></div>
-                  <span className="text-gray-700 font-medium">UI/UX Design</span>
-                </div>
-              </div>
-            </div>
-
-            <div ref={buttonRef} className="flex flex-col sm:flex-row gap-4">
-              <button className="btn-primary text-lg px-8 py-4">
-                Start Your Project
+            <div ref={buttonsRef} className="flex flex-wrap gap-4">
+              <button className="btn-primary text-lg">
+                Get Started
               </button>
-              <button className="btn-secondary text-lg px-8 py-4">
+              <button className="btn-secondary text-lg">
                 View Our Work
               </button>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 pt-8">
-              <div className="text-center">
-                <div className="text-3xl font-bold gradient-text">50+</div>
-                <div className="text-gray-600">Projects Completed</div>
+            <div ref={statsRef} className="grid grid-cols-3 gap-6 pt-8">
+              <div className="stat-card">
+                <div className="stat-number text-4xl font-bold gradient-text" data-target="150">120</div>
+                <div className="text-gray-600 text-sm mt-1">Projects Delivered</div>
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold gradient-text">25+</div>
-                <div className="text-gray-600">Happy Clients</div>
+              <div className="stat-card">
+                <div className="stat-number text-4xl font-bold gradient-text" data-target="50">300</div>
+                <div className="text-gray-600 text-sm mt-1">Happy Clients</div>
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold gradient-text">5+</div>
-                <div className="text-gray-600">Years Experience</div>
+              <div className="stat-card">
+                <div className="stat-number text-4xl font-bold gradient-text" data-target="10">10</div>
+                <div className="text-gray-600 text-sm mt-1">Years Experience</div>
               </div>
             </div>
           </div>
 
-          {/* Right Content - Hero Image */}
+          {/* Right Content - Image/Graphic */}
           <div ref={imageRef} className="relative">
-            <div className="relative z-10">
-              <div className="bg-white rounded-2xl shadow-2xl p-8 transform rotate-3 hover:rotate-0 transition-transform duration-500">
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div className="relative">
+              {/* Main Card */}
+              <div className="glass-card p-8 shine-effect">
+                <div className="space-y-6">
+                  {/* Browser Header */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
                   </div>
-                  <div className="bg-gray-100 rounded-lg p-4 h-32 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg mx-auto mb-2 flex items-center justify-center">
-                        <span className="text-white text-2xl font-bold">S</span>
-                      </div>
-                      <div className="text-sm text-gray-600">Seqato Dashboard</div>
+
+                  {/* Content */}
+                  <div className="space-y-4">
+                    <div className="h-4 bg-gradient-to-r from-blue-400 to-blue-600 rounded w-3/4"></div>
+                    <div className="h-4 bg-gray-200 rounded w-full"></div>
+                    <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                    
+                    <div className="grid grid-cols-2 gap-4 pt-4">
+                      <div className="h-24 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border border-blue-200"></div>
+                      <div className="h-24 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg border border-blue-300"></div>
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/* Floating Elements */}
+              <div className="absolute -top-6 -right-6 w-20 h-20 bg-blue-500 rounded-xl shadow-glow-blue animate-float"></div>
+              <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-blue-600 rounded-full shadow-glow-blue animate-float" style={{animationDelay: '1s'}}></div>
             </div>
-            
-            {/* Floating Elements */}
-            <div className="absolute -top-4 -right-4 w-20 h-20 bg-blue-600 rounded-full opacity-20 animate-bounce"></div>
-            <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-purple-600 rounded-full opacity-20 animate-bounce" style={{animationDelay: '1s'}}></div>
-            <div className="absolute top-1/2 -left-8 w-12 h-12 bg-pink-600 rounded-full opacity-20 animate-bounce" style={{animationDelay: '2s'}}></div>
           </div>
         </div>
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-        <div className="flex flex-col items-center space-y-2">
-          <span className="text-gray-500 text-sm">Scroll to explore</span>
-          <div className="w-6 h-10 border-2 border-gray-300 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-bounce"></div>
-          </div>
+      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="flex flex-col items-center gap-2">
+          <span className="text-sm text-gray-500 font-medium">Scroll to explore</span>
+          <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
         </div>
       </div>
     </section>
